@@ -1,6 +1,14 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.urls import reverse
+
+
+# Now lets create a manager, this manager allow you
+# to retrieve posts using like: Post.published.all()
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status='published')
 
 
 # This is a model data for blog posts
@@ -46,9 +54,14 @@ class Post(models.Model):
                               choices=STATUS_CHOICES,
                               default='draft')
 
+    # This is the default manager.
+    objects = models.Manager()
+    # This is a custom manager.
+    published = PublishedManager()
     # This class contains meta data. When you use the negative prefix
     # means that once you query the database it will sort by descending
     # order all the publish fields.
+
     class Meta:
         ordering = ('-publish',)
 
@@ -56,3 +69,12 @@ class Post(models.Model):
     # the administration site.
     def __str__(self):
         return self.title
+
+
+
+    def get_absolute_url(self):
+        return reverse('BlogApp:post_detail',
+                       args=[self.publish.year,
+                             self.publish.month,
+                             self.publish.day,
+                             self.slug])
