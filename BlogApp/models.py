@@ -56,12 +56,13 @@ class Post(models.Model):
 
     # This is the default manager.
     objects = models.Manager()
+
     # This is a custom manager.
     published = PublishedManager()
+
     # This class contains meta data. When you use the negative prefix
     # means that once you query the database it will sort by descending
     # order all the publish fields.
-
     class Meta:
         ordering = ('-publish',)
 
@@ -69,8 +70,6 @@ class Post(models.Model):
     # the administration site.
     def __str__(self):
         return self.title
-
-
 
     def get_absolute_url(self):
         return reverse('BlogApp:post_detail',
