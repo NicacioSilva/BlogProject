@@ -1,28 +1,40 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import ListView
 
 
-def post_list(request):
+class PostListView(ListView):
     # it is querying all published posts from db
-    object_list = Post.published.all()
-    # it'll limit number of posts in 3
-    paginator = Paginator(object_list, 3)
-    page = request.GET.get('page')
-    try:
-        # try go to its page.
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # if it's not an int, go first page.
-        posts = paginator.page(1)
-    except EmptyPage:
-        # if it's too big number, go last page.
-        posts = paginator.page(paginator.num_pages)
+    queryset = Post.published.all()
+    # it specify the context variable as 'posts'.
+    context_object_name = 'posts'
+    # it'll limit number of posts in 3. It's called pagination.
+    paginate_by = 3
     # and then render this page using list.html
-    return render(request,
-                  'BlogApp/post/list.html',
-                  {'page': page,
-                   'posts': posts})
+    template_name = 'BlogApp/post/list.html'
+
+
+# def post_list(request):
+#     # it is querying all published posts from db
+#     object_list = Post.published.all()
+#     # it'll limit number of posts in 3
+#     paginator = Paginator(object_list, 3)
+#     page = request.GET.get('page')
+#     try:
+#         # try go to its page.
+#         posts = paginator.page(page)
+#     except PageNotAnInteger:
+#         # if it's not an int, go first page.
+#         posts = paginator.page(1)
+#     except EmptyPage:
+#         # if it's too big number, go last page.
+#         posts = paginator.page(paginator.num_pages)
+#     # and then render this page using list.html
+#     return render(request,
+#                   'BlogApp/post/list.html',
+#                   {'page': page,
+#                    'posts': posts})
 
 
 def post_detail(request, year, month, day, post):
