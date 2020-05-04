@@ -22,14 +22,16 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
 
     # slog's a Django feature for generate beautiful urls
-    # and they will be unique.
+    # using its publishing dates and they will be unique
+    # and it's Django that will assure it
+    # even if they was published same date.
     slug = models.SlugField(max_length=250,
                             unique_for_date='publish')
 
     # It'll create a separated table for authors, it's a relation
     # of many-to-one. The on_delete plus .CASCADE says when you
     # delete an user all its related posts will be also deleted.
-    # related_name means you can select user be blog_posts and
+    # related_name means you can select user by blog_posts and
     # vice versa.
     author = models.ForeignKey(User,
                                on_delete=models.CASCADE,
@@ -40,7 +42,7 @@ class Post(models.Model):
 
     # It uses Django's timezone.now() as default value
     # indicating when post was published.
-    publish = models.DateTimeField(default=timezone.now())
+    publish = models.DateTimeField(default=timezone.now)
 
     # Since you use auto_now_add, the date will be saved automatically
     # when creating an object
