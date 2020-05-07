@@ -58,10 +58,11 @@ input, textarea {
     clear:both;
     float:left;
     margin:0 0 10px;
-    background:#ededed;
+    background: #ededed;
     border:0;
     padding:6px 10px;
     font-size:12px;
+    border-radius: 10px;
 }
 input[type=submit] {
     font-weight:bold;
@@ -70,6 +71,8 @@ input[type=submit] {
     padding:10px 20px;
     font-size:14px;
     text-transform:uppercase;
+    margin-block: 5px;
+    border-radius: 10px;
 }
 .errorlist {
     color:#cc0033;
