@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, Comment
 
 
 # Every line writen here customizes the admin screen panel. You can do it
@@ -33,3 +33,11 @@ class PostAdmin(admin.ModelAdmin):
 
     # it adds a little arrow that will order by status or publish.
     ordering = ('status', 'publish')
+
+
+# every thing on this new class have the same properties and behaviors as described above.
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'post', 'created', 'active')
+    list_filter = ('active', 'created', 'updated')
+    search_fields = ('name', 'email', 'body')
