@@ -82,18 +82,33 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    # This is comment's class
+
+    # - Post's ForeignKey is many-to-one relation, it means that a post
+    # will have many comments, but every comments belongs to one post only.
+    # - The on_delete=models.CASCADE, means once you delete a post, all
+    # the comments that belongs to that post will be also deleted.
+    # - The related_name='comments' gives the power to do:
+    # post.comments.all() and retrieves all the comments of that post.
     post = models.ForeignKey(Post,
                              on_delete=models.CASCADE,
                              related_name='comments')
     name = models.CharField(max_length=80)
+    # This EmailField automatically validates emails.
     email = models.EmailField()
     body = models.TextField()
+    # This auto_now_add creates a read only field, after it was created.
     created = models.DateTimeField(auto_now_add=True)
+    # This auto_now create a field that can by updated once it changes.
     updated = models.DateTimeField(auto_now=True)
+    # You can set default as True or False, what turns comments
+    # possible to be activate or deactivated.
     active = models.BooleanField(default=True)
 
+    # It's giving to Comment the property of sort by 'created'.
     class Meta:
         ordering = ('created',)
 
+    # This's what'll be printed, when you print a comment obj.
     def __str__(self):
         return f'Comment by {self.name} on {self.post}'
