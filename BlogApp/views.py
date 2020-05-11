@@ -1,21 +1,51 @@
 from decouple import config
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.core.mail import send_mail
+from taggit.models import Tag
 
 from .models import Post, Comment
 from .forms import EmailPostForm, CommentForm
 
 
-class PostListView(ListView):
-    # it is querying all published posts from db
-    queryset = Post.published.all()
-    # it specify the context variable as 'posts'.
-    context_object_name = 'posts'
-    # it'll limit number of posts in 3. It's called pagination.
-    paginate_by = 3
-    # and then render this page using list.html
-    template_name = 'BlogApp/post/list.html'
+# class PostListView(ListView):
+#     # it is querying all published posts from db
+#     queryset = Post.published.all()
+#     # it specify the context variable as 'posts'.
+#     context_object_name = 'posts'
+#     # it'll limit number of posts in 3. It's called pagination.
+#     paginate_by = 3
+#     # and then render this page using list.html
+#     template_name = 'BlogApp/post/list.html'
+
+def post_list(request, tag_slug=None):
+    # Get a list of all published posts
+    published_posts = Post.published.all()
+    # create a tag variable to use it inside of the if scope below
+    tag = None
+
+    if tag_slug:
+        # if there's some thing in tag_slug, it'll extract to tag variable
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        # and let's filter published_post's list by that tag
+        published_posts = published_posts.filter(tags__in=[tag])
+
+    # it determinates the quantity of posts will be displayed
+    paginator = Paginator(published_posts, 3)
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        posts = paginator.page(paginator.num_pages)
+    return render(request, 'BlogApp/post/list.html', {'page': page,
+                                                      'posts': posts,
+                                                      'tag': tag})
 
 
 def post_detail(request, year, month, day, post):
