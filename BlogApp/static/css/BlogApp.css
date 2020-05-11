@@ -41,6 +41,11 @@ p.date {
     font-style: italic;
 }
 
+p.tags {
+    font-size: 13px;
+    font-family: Avantgarde, TeX Gyre Adventor, URW Gothic, serif;
+}
+
 /* pagination */
 .pagination {
     margin:40px 0;
