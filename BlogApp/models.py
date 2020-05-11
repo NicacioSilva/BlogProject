@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 # Now lets create a manager, this manager allow you
@@ -61,6 +62,9 @@ class Post(models.Model):
 
     # This is a custom manager.
     published = PublishedManager()
+
+    # By adding this tags obj, it allows you to add, retrieve and remove tags from Post objects.
+    tags = TaggableManager()
 
     # This class contains meta data. When you use the negative prefix
     # means that once you query the database it will sort by descending
