@@ -3,8 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.core.mail import send_mail
 
-from .models import Post
-from .forms import EmailPostForm
+from .models import Post, Comment
+from .forms import EmailPostForm, CommentForm
 
 
 class PostListView(ListView):
@@ -19,14 +19,47 @@ class PostListView(ListView):
 
 
 def post_detail(request, year, month, day, post):
+    # This post_detail method is about to properly display in detail a single post
+    # and, of course, its other characteristics as comments and a form to write new
+    # comments.
+
     post = get_object_or_404(Post, slug=post,
                              status='published',
                              publish__year=year,
                              publish__month=month,
                              publish__day=day)
+
+    # Let's retrieve all the active comments for this post
+    comments = post.comments.filter(active=True)
+
+    # We satiate a new_comment now to deal it later
+    new_comment = None
+
+    # Now we handle GET and POST methods
+    if request.method == 'POST':
+        # It's suppose that a comment was posted, so let's extract its data
+        comment_form = CommentForm(data=request.POST)
+
+        # and we need to now if its data is valid and what to if its not valid
+        if comment_form.is_valid():
+            # extract data from comment_form to new_comment variable
+            # commit=False will assure it's not save to database yet
+            new_comment = comment_form.save(commit=False)
+            # assure this comment will belongs to the post that user have commented
+            new_comment.post = post
+            # and finally save it in the database
+            new_comment.save()
+    else:
+        # if it's only a GET method, it's only to show the form, so:
+        comment_form = CommentForm()
+
+    # Now we have all variable's setup in a properly way, let's rendering it in the html through render method
     return render(request,
                   'BlogApp/post/detail.html',
-                  {'post': post})
+                  {'post': post,
+                   'comments': comments,
+                   'new_comment': new_comment,
+                   'comment_form': comment_form})
 
 
 def post_share(request, post_id):
