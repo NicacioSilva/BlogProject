@@ -1,23 +1,13 @@
 from decouple import config
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView
 from django.core.mail import send_mail
 from taggit.models import Tag
+from django.db.models import Count
 
 from .models import Post, Comment
 from .forms import EmailPostForm, CommentForm
 
-
-# class PostListView(ListView):
-#     # it is querying all published posts from db
-#     queryset = Post.published.all()
-#     # it specify the context variable as 'posts'.
-#     context_object_name = 'posts'
-#     # it'll limit number of posts in 3. It's called pagination.
-#     paginate_by = 3
-#     # and then render this page using list.html
-#     template_name = 'BlogApp/post/list.html'
 
 def post_list(request, tag_slug=None):
     # Get a list of all published posts
@@ -83,13 +73,22 @@ def post_detail(request, year, month, day, post):
         # if it's only a GET method, it's only to show the form, so:
         comment_form = CommentForm()
 
+    # Generating a list of similar posts:
+    # post_tags_ids is a list's id of all tags of the current post
+    post_tags_ids = post.tags.values_list('id', flat=True)
+    # similar_posts is list of all post that have the same tags in post_tags_ids except by the current post
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+    # Count the same tags and order by -same_tags and -publish. Show the fist 4 similar_posts.
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
+
     # Now we have all variable's setup in a properly way, let's rendering it in the html through render method
     return render(request,
                   'BlogApp/post/detail.html',
                   {'post': post,
                    'comments': comments,
                    'new_comment': new_comment,
-                   'comment_form': comment_form})
+                   'comment_form': comment_form,
+                   'similar_posts': similar_posts})
 
 
 def post_share(request, post_id):
