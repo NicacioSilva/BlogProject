@@ -8,36 +8,57 @@
     <link href="{% static "css/BlogApp.css" %}" rel="stylesheet">
     <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
 </head>
+
 <body>
-<div id="content">
-    {% block content %}
-    {% endblock %}
+
+<div class="header">
+    <h1>Blog Name</h1>
 </div>
 
-<div id="sidebar">
+<div class="row">
+    <div class="leftcolumn">
+        <div class="card">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
 
-    <h2>My blog</h2>
-    <p>This is my blog. I've written {% total_posts %} posts so far.</p>
+    <div class="rightcolumn">
+        <div class="card">
+            <h2>My blog</h2>
+            <p>This is my blog. I've written {% total_posts %} posts so far.</p>
+        </div>
 
-    <p>
-        <a href="{% url "BlogApp:post_feed" %}">Subscribe to my RSS feed</a>
-    </p>
+        <div class="card">
+            <h3>Search</h3>
+            <p>Some text..</p>
+        </div>
 
-    <hr>
+        <div class="card">
+            <a href="{% url "BlogApp:post_feed" %}">Subscribe to my RSS feed</a>
+        </div>
 
-    <h3>Latest posts</h3>
-    {% show_latest_posts 3 %}
+        <div class="card">
+            <h3>Latest posts</h3>
+            {% show_latest_posts 3 %}
+        </div>
 
-    <h3>Most commented posts</h3>
-    {% get_most_commented_posts as most_commented_posts %}
-    <ul>
-        {% for post in most_commented_posts %}
-            <li>
-                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+        <div class="card">
+            <h3>Most commented posts</h3>
+            {% get_most_commented_posts as most_commented_posts %}
+            <ul>
+                {% for post in most_commented_posts %}
+                    <li>
+                        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 
+<div class="footer">
+    <h2>Footer</h2>
 </div>
 
 </body>
