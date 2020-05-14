@@ -27,3 +27,7 @@ class CommentForm(forms.ModelForm):
         # and each one of them will inherit its validation properties,
         # like email, size, etc. And that's freaking cool =D
         fields = ('name', 'email', 'body')
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField()
