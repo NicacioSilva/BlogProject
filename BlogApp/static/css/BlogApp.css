@@ -9,12 +9,7 @@ body {
 }
 
 /* Header/Blog Title */
-.header {
-    padding: 20px;
-    font-size: 40px;
-    text-align: center;
-    background: white;
-}
+
 
 /* Clear floats after the columns */
 .row:after {
