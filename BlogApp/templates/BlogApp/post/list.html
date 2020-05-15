@@ -24,7 +24,9 @@
             {{ post.body|markdown|truncatewords_html:30 }}
         </div>
     {% endfor %}
+
     {% include "pagination.html" with page=posts %}
+
     {% if tag %}
         <h2>Posts tagged with "{{ tag.name }}"</h2>
     {% endif %}

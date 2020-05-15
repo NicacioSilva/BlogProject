@@ -23,7 +23,7 @@ def post_list(request, tag_slug=None):
         published_posts = published_posts.filter(tags__in=[tag])
 
     # it determinates the quantity of posts will be displayed
-    paginator = Paginator(published_posts, 3)
+    paginator = Paginator(published_posts, 2)
     page = request.GET.get('page')
 
     try:
