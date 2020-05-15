@@ -47,7 +47,7 @@ body {
 
 /* Add a card effect for articles */
 .card {
-    background-color: white;
+    background-color: #F0F0E7;
     padding: 20px;
     margin-top: 20px;
 }
@@ -78,14 +78,6 @@ h2 {
     float: left;
     width: 60%;
     padding: 0 0 0 30px;
-}
-
-#sidebar {
-    float: right;
-    width: 30%;
-    padding: 10px;
-    background: #e0e0e0;
-    height: 100%;
 }
 
 p.date {
@@ -147,7 +139,7 @@ input[type=submit] {
 }
 
 .comment:nth-child(even) {
-    background: #efefef;
+    background: #F0F0E7;
 }
 
 .comment .info {
