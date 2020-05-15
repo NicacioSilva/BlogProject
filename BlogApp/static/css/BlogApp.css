@@ -9,7 +9,7 @@ html, body {
 }
 /* Add a gray background color with some padding */
 body {
-    font-family: Arial, cursive;
+    font-family: Georgia, serif;
 }
 
 /* Clear floats after the columns */
@@ -47,13 +47,6 @@ body {
     margin-top: 10px;
 }
 
-/* Fake image */
-.fakeimg {
-    background-color: #aaa;
-    width: 100%;
-    padding: 20px;
-}
-
 a {
     color: #00abff;
     text-decoration: none;
@@ -65,14 +58,23 @@ h1 {
 }
 
 h2 {
-    font-weight: normal;
+    font-family: Georgia, serif;
+    font-weight: bold;
     margin: 30px 0 0;
+}
+
+h3 {
+    font-family: Impact, serif;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 20px!important;
 }
 
 #content {
     float: left;
     width: 60%;
     padding: 0 0 0 30px;
+    font-family: Helvetica, sans-serif;
 }
 
 p.date {
@@ -84,7 +86,7 @@ p.date {
 
 p.tags {
     font-size: 13px;
-    font-family: Avantgarde, TeX Gyre Adventor, URW Gothic, serif;
+    font-family: Helvetica, sans-serif!important;
 }
 
 /* pagination */
