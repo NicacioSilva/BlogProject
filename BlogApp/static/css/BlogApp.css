@@ -1,15 +1,14 @@
 * {
     box-sizing: border-box;
 }
-
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
 /* Add a gray background color with some padding */
 body {
     font-family: Arial, cursive;
-    padding: 20px;
 }
-
-/* Header/Blog Title */
-
 
 /* Clear floats after the columns */
 .row:after {
@@ -34,17 +33,16 @@ body {
 
 /* Footer */
 .footer {
-    padding: 20px;
     text-align: center;
-    background: #ddd;
+    background: rgb(224, 240, 255);
     margin-top: 20px;
 }
 
 /* Add a card effect for articles */
 .card {
     background-color: #F0F0E7;
-    padding: 20px;
-    margin-top: 20px;
+    padding: 10px;
+    margin-top: 10px;
 }
 
 /* Fake image */
