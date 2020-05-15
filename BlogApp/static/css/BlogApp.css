@@ -4,6 +4,8 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,1) 35%);
 }
 /* Add a gray background color with some padding */
 body {
@@ -34,7 +36,7 @@ body {
 /* Footer */
 .footer {
     text-align: center;
-    background: rgb(224, 240, 255);
+    background: rgba(224, 240, 255, 0);
     margin-top: 20px;
 }
 
